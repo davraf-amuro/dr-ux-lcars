@@ -22,7 +22,14 @@ const SYSTEM_DARK_SELECTOR = ':root:not([data-theme])'
 const SURFACES = ['--c-bg', '--c-surface']
 // --c-federal, --c-alert, --c-ok sono anche testo (link, badge, pulsanti ghost): soglia 4.5:1,
 // che copre anche l'anello di focus in --c-federal (3:1).
-const TEXT_ON_SURFACES = ['--c-ink', '--c-ink-muted', '--c-neutral', '--c-federal', '--c-alert', '--c-ok']
+const TEXT_ON_SURFACES = [
+  '--c-ink',
+  '--c-ink-muted',
+  '--c-neutral',
+  '--c-federal',
+  '--c-alert',
+  '--c-ok',
+]
 const NON_TEXT_ON_SURFACES = ['--c-control-border']
 const ON_PAIRS = [
   ['--c-on-federal', '--c-federal'],
@@ -49,7 +56,7 @@ function parseBlocks(css) {
     for (const decl of match[2].matchAll(/(--[\w-]+)\s*:\s*([^;]+);/g)) {
       declarations[decl[1]] = decl[2].trim()
     }
-    blocks.set(selector, { ...(blocks.get(selector) ?? {}), ...declarations })
+    blocks.set(selector, { ...blocks.get(selector), ...declarations })
   }
   return blocks
 }
@@ -149,13 +156,19 @@ function main() {
 
   for (const r of results) {
     const mark = r.ok ? 'ok  ' : 'FAIL'
-    console.log(`${mark} ${r.label.padEnd(6)} ${r.fg} su ${r.bg}: ${r.ratio.toFixed(2)}:1 (min ${r.min}:1)`)
+    console.log(
+      `${mark} ${r.label.padEnd(6)} ${r.fg} su ${r.bg}: ${r.ratio.toFixed(2)}:1 (min ${r.min}:1)`,
+    )
   }
   for (const p of problems) console.error(`ERRORE ${p}`)
 
   const failed = results.filter((r) => !r.ok).length
   if (problems.length > 0) process.exit(2)
-  console.log(failed === 0 ? `\n${results.length} coppie verificate: tutte conformi.` : `\n${failed} coppie su ${results.length} sotto soglia.`)
+  console.log(
+    failed === 0
+      ? `\n${results.length} coppie verificate: tutte conformi.`
+      : `\n${failed} coppie su ${results.length} sotto soglia.`,
+  )
   process.exit(failed === 0 ? 0 : 1)
 }
 

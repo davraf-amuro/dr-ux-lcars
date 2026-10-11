@@ -43,9 +43,10 @@ Un passo alla volta, con conferma per ogni file esistente.
 
 ## Fase 4 — Verifica
 
-1. `node scripts/lcars-contrast.mjs` (percorso diverso di `tokens.css` → passalo come argomento). Exit code diverso da 0 → mostra le coppie `FAIL` e fermati: non si committa un tema sotto soglia.
-2. Comandi di verifica dell'host dichiarati dalla sua istruzione di dominio (lint senza `--fix`, format, type-check, test, build). Tutti verdi.
-3. Chiedi all'utente un controllo visivo a 375px e 1280px, tema chiaro e scuro: gomito assente su mobile, voce attiva riconoscibile senza colore, anello di focus visibile su ogni blocco.
+1. Formatta i file toccati con il formatter dell'host (es. `prettier --write`): i riferimenti seguono una configurazione comune, non quella del progetto.
+2. `node scripts/lcars-contrast.mjs` (percorso diverso di `tokens.css` → passalo come argomento). Exit code diverso da 0 → mostra le coppie `FAIL` e fermati: non si committa un tema sotto soglia.
+3. Comandi di verifica dell'host dichiarati dalla sua istruzione di dominio (lint senza `--fix`, format, type-check, test, build). Tutti verdi.
+4. Chiedi all'utente un controllo visivo a 375px e 1280px, tema chiaro e scuro: gomito assente su mobile, voce attiva riconoscibile senza colore, anello di focus visibile su ogni blocco.
 
 ## Output
 
@@ -184,7 +185,10 @@ const MAIN_CONTENT_ID = 'main-content'
 </script>
 
 <template>
-  <a :href="`#${MAIN_CONTENT_ID}`" class="skip-link bg-federal px-4 py-2 font-semibold text-on-federal">
+  <a
+    :href="`#${MAIN_CONTENT_ID}`"
+    class="skip-link bg-federal px-4 py-2 font-semibold text-on-federal"
+  >
     Vai al contenuto
   </a>
   <div class="min-h-screen md:grid md:grid-cols-[15rem_1fr]">
@@ -196,7 +200,11 @@ const MAIN_CONTENT_ID = 'main-content'
         </template>
         <!-- Contenuto di stato dell'host (banner, avvisi) -->
       </AppHeader>
-      <main :id="MAIN_CONTENT_ID" tabindex="-1" class="app-main flex-1 px-4 pt-4 pb-24 md:px-6 md:pb-6">
+      <main
+        :id="MAIN_CONTENT_ID"
+        tabindex="-1"
+        class="app-main flex-1 px-4 pt-4 pb-24 md:px-6 md:pb-6"
+      >
         <RouterView />
       </main>
     </div>
@@ -244,7 +252,10 @@ const accentOf = (index: number) => ACCENTS[index % ACCENTS.length]
     class="fixed inset-x-0 bottom-0 z-30 bg-bg p-1 md:sticky md:top-0 md:flex md:h-screen md:flex-col md:gap-(--lcars-gap) md:p-0 md:pl-3"
   >
     <!-- Gomito LCARS: si salda alla barra superiore della testata. Visibilità con classi, non nello style scoped -->
-    <div class="lcars-elbow stencil hidden font-mono text-xs text-on-lcars md:flex" aria-hidden="true" />
+    <div
+      class="lcars-elbow stencil hidden font-mono text-xs text-on-lcars md:flex"
+      aria-hidden="true"
+    />
     <ul class="grid auto-cols-fr grid-flow-col gap-(--lcars-gap) md:flex md:flex-col">
       <li v-for="(link, index) in links" :key="link.label">
         <RouterLink
@@ -324,12 +335,22 @@ li:last-child .nav-link {
  */
 .nav-link[aria-current='page'] {
   font-weight: 800;
-  background-image: linear-gradient(to top, transparent 4px, var(--c-on-lcars) 4px 9px, transparent 9px);
+  background-image: linear-gradient(
+    to top,
+    transparent 4px,
+    var(--c-on-lcars) 4px 9px,
+    transparent 9px
+  );
 }
 
 @media (min-width: 48rem) {
   .nav-link[aria-current='page'] {
-    background-image: linear-gradient(to right, transparent 6px, var(--c-on-lcars) 6px 14px, transparent 14px);
+    background-image: linear-gradient(
+      to right,
+      transparent 6px,
+      var(--c-on-lcars) 6px 14px,
+      transparent 14px
+    );
   }
 }
 </style>
@@ -476,7 +497,6 @@ BaseBadge:  inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 t
  * Sopra i blocchi --c-lcars-* si scrive solo con --c-on-lcars.
  */
 
-
 :root {
   color-scheme: light;
 
@@ -571,7 +591,6 @@ BaseBadge:  inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 t
  * --c-caution non si usa mai come colore del testo: solo fondo, con --c-on-caution sopra.
  * Sopra i blocchi --c-lcars-* si scrive solo con --c-on-lcars.
  */
-
 
 :root {
   color-scheme: light;
