@@ -26,6 +26,7 @@ Le palette cambiano solo i valori dei token: componenti e struttura sono identic
 - Applicabilità nel catalogo: `appliesTo: node`.
 - Dominio del catalogo: nessuno lo elenca; il dominio `web-frontend` elenca solo `dr-fe`. Tipologia che lo propone: `vue-fe`, in `optionalPackages`.
 - `-Update` non si propaga alle dipendenze: aggiornare solo questo pacchetto lascia `dr-fe` com'è. `/dr-get-latest` aggiorna anche `dr-fe`, che ha una propria voce nel manifest.
+- Stack richiesto nell'host: Vue 3, Tailwind CSS 4 con `@tailwindcss/vite`, Node per lo script dei contrasti. Font `@fontsource-variable/saira` (il prompt propone di installarlo se manca).
 
 File di altri pacchetti citati:
 
@@ -33,7 +34,6 @@ File di altri pacchetti citati:
 |-------------|-------------|------------------------|
 | `design-tokens.instructions.md` | Istruzione, prompt, script | `dr-fe` (dipendenza dichiarata) |
 | `frontend-organization.instructions.md` | Prompt | `dr-fe` (dipendenza dichiarata) |
-- Stack richiesto nell'host: Vue 3, Tailwind CSS 4 con `@tailwindcss/vite`, Node per lo script dei contrasti. Font `@fontsource-variable/saira` (il prompt propone di installarlo se manca).
 
 ## 🚀 Come si installa
 
@@ -94,7 +94,7 @@ Solo questo pacchetto:
 
 Cambiare palette: rilancia il prompt e scegli l'altra; cambiano solo `tokens.css` e i `theme-color`.
 
-Un file rimosso da questo repo resta nel progetto host: l'installer copia, non cancella.
+Un file rimosso da questo repo resta nel progetto host: l'installer copia, non cancella. Fa eccezione un file elencato in `obsoleteArtifacts` del catalogo: `-Update` lo rimuove.
 
 ## 🐞 Segnalare un problema o una miglioria
 
