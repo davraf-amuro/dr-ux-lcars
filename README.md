@@ -23,7 +23,7 @@ Le palette cambiano solo i valori dei token: componenti e struttura sono identic
 
 - Dipende da: `dr-fe`. Il tema fornisce i token di `design-tokens.instructions.md` di `dr-fe` (nomi, coppie `on-*`, soglie di contrasto, tema chiaro/scuro con `data-theme`); senza quel contratto le regole del tema non hanno base. L'installer installa `dr-fe` prima, se manca.
 - Richiesto da: nessuno.
-- Mutuamente esclusivo con `dr-ux-kitt`: un solo tema per host. Le istruzioni dei due temi hanno lo stesso `applyTo` (`**/*.css,**/*.vue`) e si contraddicono se installate insieme; il catalogo li dichiara in `conflictsWith`. Per cambiare tema, rimuovi prima l'altro.
+- Mutuamente esclusivo con `dr-ux-kitt`: un solo tema per host. Le istruzioni dei due temi hanno lo stesso `applyTo` (`**/*.css,**/*.vue`) e si contraddicono se installate insieme; il catalogo li dichiara in `conflictsWith`: se l'altro tema è già nel manifest l'installer avvisa (`[WARN]`) ma non blocca. Per cambiare tema, rimuovi prima l'altro.
 - Applicabilità nel catalogo: `appliesTo: node`.
 - Dominio del catalogo: nessuno lo elenca; il dominio `web-frontend` elenca solo `dr-fe`. Tipologia che lo propone: `vue-fe`, in `optionalPackages`.
 - `-Update` non si propaga alle dipendenze: aggiornare solo questo pacchetto lascia `dr-fe` com'è. `/dr-get-latest` aggiorna anche `dr-fe`, che ha una propria voce nel manifest.
@@ -40,7 +40,7 @@ File di altri pacchetti citati:
 
 Di solito non serve installarlo a mano: `/dr-scaffold` lo propone come pacchetto opzionale della tipologia `vue-fe`.
 
-A mano. Prerequisiti: PowerShell 7, git, `gh auth status` autenticato. Esegui dalla **root del repository del frontend**: l'installer usa la cartella corrente come destinazione e non avvisa se sbagli cartella.
+A mano. Prerequisiti: PowerShell 7 e git (l'installer clona il repo con `git clone --depth 1`). `gh` autenticato (`gh auth status`) serve solo alle forme `gh api` qui sotto: i repo sono Public dal 2026-09-21. Su un repo Private anche git deve poterlo leggere (`gh auth setup-git`). Esegui dalla **root del repository del frontend**: l'installer usa la cartella corrente come destinazione e non avvisa se sbagli cartella.
 
 Prima di scrivere, l'installer annuncia le dipendenze mancanti nell'ordine in cui le installa. In un progetto vuoto:
 
@@ -62,6 +62,8 @@ Oppure con l'installer del pacchetto:
 & ([scriptblock]::Create((gh api repos/davraf-amuro/dr-ux-lcars/contents/dr-ux-lcars-install.ps1 -H "Accept: application/vnd.github.raw" | Out-String)))
 ```
 
+Nota: la forma breve `irm https://raw.githubusercontent.com/... | iex` è un'alternativa valida, perché i repo sono Public. Su un repo Private risponderebbe 404: lì si usa `gh api`.
+
 L'installer porta istruzione, prompt e script: **non modifica i sorgenti del frontend**. Il tema si applica dopo, con il prompt `dr-ux-lcars-apply.prompt.md`, scegliendo la palette.
 
 ## 📦 Cosa finisce nel progetto host
@@ -75,7 +77,7 @@ L'installer porta istruzione, prompt e script: **non modifica i sorgenti del fro
 
 Dopo il prompt di applicazione cambiano anche `src/assets/styles/tokens.css`, `main.css`, il guscio (`src/App.vue`, `src/components/shell/AppSidebar.vue`, `src/components/shell/AppHeader.vue`), i componenti condivisi, `index.html` e `public/site.webmanifest`: sempre con diff mostrato e conferma.
 
-Il pacchetto non modifica `CLAUDE.md` né i file di configurazione (`.editorconfig`, `.gitignore`, `.gitattributes`, `.claude/settings.json`, `.mcp.json`). Li scrive il core, solo se viene installato insieme perché mancava dal manifest.
+Il pacchetto non modifica `CLAUDE.md` né i file di configurazione (`.editorconfig`, `.gitignore`, `.gitattributes`, `.claude/settings.json`, `.mcp.json`). Li scrive il core, solo se viene installato insieme perché mancava dal manifest; `.mcp.json` solo con `-WithMcp` dell'installer del core.
 
 Non vengono copiati `README.md`, `LICENSE`, `.github/ISSUE_TEMPLATE/` e l'installer `dr-ux-lcars-install.ps1`.
 
@@ -91,7 +93,7 @@ Solo questo pacchetto:
 & ([scriptblock]::Create((gh api repos/davraf-amuro/dr-ux-lcars/contents/dr-ux-lcars-install.ps1 -H "Accept: application/vnd.github.raw" | Out-String))) -Update
 ```
 
-`-Update` sovrascrive istruzione, prompt e script, mai i sorgenti del frontend. Per portare nel frontend una correzione del tema, rilancia il prompt di applicazione.
+`-Update` sovrascrive istruzione e prompt. Lo script dei contrasti si sovrascrive solo se non l'hai modificato; altrimenti la versione nuova va in `scripts/lcars-contrast.mjs.new` e l'originale resta com'è. Mai i sorgenti del frontend. Per portare nel frontend una correzione del tema, rilancia il prompt di applicazione.
 
 Cambiare palette: rilancia il prompt e scegli l'altra; cambiano solo `tokens.css` e i `theme-color`.
 
@@ -108,8 +110,10 @@ Dal progetto host usa `/dr-file-feedback <descrizione>` (su Copilot il prompt `.
 | `.github/ISSUE_TEMPLATE/miglioria.md` | Richiesta evolutiva: regola nuova, precisazione, estensione del pacchetto |
 | `.github/ISSUE_TEMPLATE/problema.md` | Malfunzionamento: regola sbagliata, ambigua o che porta l'agente fuori strada |
 
+## ⚖️ Marchi
+
 LCARS e Star Trek sono marchi di Paramount; questo pacchetto è un omaggio non ufficiale e non usa materiale grafico originale.
 
 ---
 
-*Revisione v1.1 — 2026-10-11 21:00 — claude-opus-5-5*
+*Revisione v1.2 — 2026-10-20 21:00 — claude-opus-5-5*
