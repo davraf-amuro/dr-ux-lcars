@@ -23,6 +23,7 @@ Le palette cambiano solo i valori dei token: componenti e struttura sono identic
 
 - Dipende da: `dr-fe`. Il tema fornisce i token di `design-tokens.instructions.md` di `dr-fe` (nomi, coppie `on-*`, soglie di contrasto, tema chiaro/scuro con `data-theme`); senza quel contratto le regole del tema non hanno base. L'installer installa `dr-fe` prima, se manca.
 - Richiesto da: nessuno.
+- Mutuamente esclusivo con `dr-ux-kitt`: un solo tema per host. Le istruzioni dei due temi hanno lo stesso `applyTo` (`**/*.css,**/*.vue`) e si contraddicono se installate insieme; il catalogo li dichiara in `conflictsWith`. Per cambiare tema, rimuovi prima l'altro.
 - Applicabilità nel catalogo: `appliesTo: node`.
 - Dominio del catalogo: nessuno lo elenca; il dominio `web-frontend` elenca solo `dr-fe`. Tipologia che lo propone: `vue-fe`, in `optionalPackages`.
 - `-Update` non si propaga alle dipendenze: aggiornare solo questo pacchetto lascia `dr-fe` com'è. `/dr-get-latest` aggiorna anche `dr-fe`, che ha una propria voce nel manifest.
